@@ -2,7 +2,66 @@
 <html>
 <body>
 
+<div id="container">
+    <div id="display">
+        <p>58008</p>
+    </div>
+
+    <div class="buttons-container">
+        <button class="grid-item" id='b7'> 7 </button>
+        <button class="grid-item" id='b8'> 8 </button>
+        <button class="grid-item" id='b9'> 9 </button>
+        <button class="grid-item" id='divide'> / </button>
+
+        <button class="grid-item" id='b4'> 4 </button>
+        <button class="grid-item" id='b5'> 5 </button>
+        <button class="grid-item" id='b6'> 6 </button>
+        <button class="grid-item" id='x'> x </button>
+
+        <button class="grid-item" id='b1'> 1 </button>
+        <button class="grid-item" id='b2'> 2 </button>
+        <button class="grid-item" id='b3'> 3 </button>
+        <button class="grid-item" id='subtract'> - </button>
+
+        <button class="grid-item" id='b0'> 0 </button>
+        <button class="grid-item" id='b.'> . </button>
+        <button class="grid-item" id='equals'> = </button>
+        <button class="grid-item" id='add'> + </button>
+
+    </div>    
+</div>
+
 </body>
+
+<style>
+    #container {
+        background-color: grey;
+        width: 800px;
+        height: 800px;
+        padding: 20px;
+        border: 5px solid black;
+    }   
+
+    #display {
+        margin: auto;
+        padding: 25px;
+        height: 100px;
+        width: 400px;
+        border: 5px solid black ;
+        background-color: ghostwhite;
+    }
+    .buttons-container {
+        margin-left: 170px;
+        margin-right: auto;
+        padding: 25px;
+        display: grid;
+        grid-template-columns: repeat( 4, 100px[col-start]); 
+        grid-template-rows:    repeat( 4, 100px[row-start])
+    }
+
+
+
+</style>
 
 <script>
     function add(a, b){
