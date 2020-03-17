@@ -4,7 +4,7 @@
 
 <div id="container">
     <div id="display">
-        <p>58008</p>
+        <p id="displayTxt"></p>
     </div>
 
     <div class="buttons-container">
@@ -16,7 +16,7 @@
         <button class="grid-item" id='b4'> 4 </button>
         <button class="grid-item" id='b5'> 5 </button>
         <button class="grid-item" id='b6'> 6 </button>
-        <button class="grid-item" id='x'> x </button>
+        <button class="grid-item" id='multiply'> x </button>
 
         <button class="grid-item" id='b1'> 1 </button>
         <button class="grid-item" id='b2'> 2 </button>
@@ -24,7 +24,7 @@
         <button class="grid-item" id='subtract'> - </button>
 
         <button class="grid-item" id='b0'> 0 </button>
-        <button class="grid-item" id='b.'> . </button>
+        <button class="grid-item" id='bClear'> CE </button>
         <button class="grid-item" id='equals'> = </button>
         <button class="grid-item" id='add'> + </button>
 
@@ -36,8 +36,8 @@
 <style>
     #container {
         background-color: grey;
-        width: 800px;
-        height: 800px;
+        width: 600px;
+        height: 600px;
         padding: 20px;
         border: 5px solid black;
     }   
@@ -52,7 +52,7 @@
         background-color: ghostwhite;
     }
     .buttons-container {
-        margin-left: 170px;
+        margin-left: 70px;
         margin-right: auto;
         padding: 25px;
         display: grid;
@@ -69,6 +69,96 @@
 </style>
 
 <script>
+    let displayValue = 0;
+    const display = document.querySelector('#displayTxt');
+
+    let output = false;
+    let a = 0;
+    let c = 0;
+    let op = '';
+
+    //Event Listeners
+    const btn0 = document.querySelector('#b0');
+    btn0.onclick = () => numClick(0);
+
+    const btn1 = document.querySelector('#b1');
+    btn1.onclick = () => numClick(1);
+
+    const btn2 = document.querySelector('#b2');
+    btn2.onclick = () => numClick(2);
+
+    const btn3 = document.querySelector('#b3');
+    btn3.onclick = () => numClick(3);
+
+    const btn4 = document.querySelector('#b4');
+    btn4.onclick = () => numClick(4);
+
+    const btn5 = document.querySelector('#b5');
+    btn5.onclick = () => numClick(5);
+
+    const btn6 = document.querySelector('#b6');
+    btn6.onclick = () => numClick(6);
+
+    const btn7 = document.querySelector('#b7');
+    btn7.onclick = () => numClick(7);
+
+    const btn8 = document.querySelector('#b8');
+    btn8.onclick = () => numClick(8);
+
+    const btn9 = document.querySelector('#b9');
+    btn9.onclick = () => numClick(9);
+
+    const equals = document.querySelector('#equals');
+    equals.onclick = () => opComp();
+
+    const bAdd = document.querySelector('#add');
+    bAdd.onclick = () => opClick('+');
+
+    const bDiv = document.querySelector('#divide');
+    bDiv.onclick = () => opClick('/');
+
+    const bSub =  document.querySelector('#subtract');
+    bSub.onclick = () => opClick('-');
+
+    const bMult =  document.querySelector('#multiply');
+    bMult.onclick = () => opClick('*');
+
+    const btnClear = document.querySelector('#bClear');
+    btnClear.addEventListener('click', () => {
+    displayValue = 0;
+    display.innerHTML = "";
+    });
+
+    //Number Click Funct
+    function numClick(num){
+        //Check if displayVal is inputed or operation output
+        if(displayValue == 0 || output){
+            displayValue = num;
+            display.innerHTML = displayValue;
+            output = false;
+        }
+        else{
+            displayValue *= 10;
+            displayValue += num;
+            display.innerHTML = displayValue;
+        }
+    }
+
+    //Operator Click Funct
+    function opClick(oper){
+        op = oper;
+        a = displayValue;
+        display.innerHTML = op;
+        displayValue = 0;
+    }
+
+    function opComp(){
+        c = operate(op, a, displayValue);
+        output = true;
+        displayValue = 0;
+        display.innerHTML = c;
+    }
+
     function add(a, b){
         return a + b;
     }
@@ -76,7 +166,7 @@
         return a - b;
     }
     function multiply(a,b){
-        return a*b;
+        return a * b;
     }
     function divide(a,b){
         return a/b;
