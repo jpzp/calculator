@@ -69,14 +69,6 @@
 </style>
 
 <script>
-    let displayValue = 0;
-    const display = document.querySelector('#displayTxt');
-
-    let output = false;
-    let a = 0;
-    let c = 0;
-    let op = '';
-
     //Event Listeners
     const btn0 = document.querySelector('#b0');
     btn0.onclick = () => numClick(0);
@@ -123,40 +115,91 @@
     const bMult =  document.querySelector('#multiply');
     bMult.onclick = () => opClick('*');
 
+
+    //Variables
+    let displayValue = 0;
+    const display = document.querySelector('#displayTxt');
+    var inputArr = [];
+    let md_count = 0
+
+
+    let output = false;
+    let a = 0;
+    let aSet = false;
+    let c = 0;
+    let op = '';
+
+    //Clear
     const btnClear = document.querySelector('#bClear');
     btnClear.addEventListener('click', () => {
     displayValue = 0;
     display.innerHTML = "";
+    inputArr = [];
     });
 
     //Number Click Funct
     function numClick(num){
-        //Check if displayVal is inputed or operation output
-        if(displayValue == 0 || output){
+        if(displayValue == 0){
             displayValue = num;
-            display.innerHTML = displayValue;
-            output = false;
         }
         else{
             displayValue *= 10;
             displayValue += num;
+        }
+        if(inputArr.length > 1){
+            display.innerHTML += num;
+        }
+        else{
             display.innerHTML = displayValue;
         }
     }
 
     //Operator Click Funct
-    function opClick(oper){
-        op = oper;
-        a = displayValue;
-        display.innerHTML = op;
+    function opClick(op){
+        if(op == '/' || op == '*'){
+            md_count += 1;
+        }
+        if((typeof inputArr[inputArr.length -1]) != "number"){
+            inputArr.push(displayValue);
+        }
+        inputArr.push(op);
+        display.innerHTML += " " + op + " ";
         displayValue = 0;
     }
 
+
     function opComp(){
-        c = operate(op, a, displayValue);
-        output = true;
-        displayValue = 0;
-        display.innerHTML = c;
+        inputArr.push(displayValue);
+        console.log(inputArr);
+        if(md_count > 0){
+            //loop with MD search
+            let i = 1;
+            while(md_count > 0){
+                if(inputArr[i] == '*' || inputArr[i] == '/'){
+                    c = operate(inputArr[i], inputArr[i-1], inputArr[i+1]);
+                    console.log(c);
+                    inputArr[i-1] = c;
+                    console.log(inputArr);
+                    inputArr.splice(i,2);
+                    console.log(inputArr);
+                    md_count-=1;
+                }
+                else{
+                    i+=2;
+                }
+            
+            } 
+        }
+        //L2R loop
+        let i = 0;
+        while(inputArr.length > 1){
+            c = operate(inputArr[i+1], inputArr[i], inputArr[i+2]);
+            console.log(c);
+            inputArr[i] = c;
+            inputArr.splice(i+1,2);
+            console.log(inputArr);
+        }
+        display.innerHTML = inputArr[0];
     }
 
     function add(a, b){
